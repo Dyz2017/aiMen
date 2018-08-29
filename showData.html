@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
+    <link rel="stylesheet" href="css/showData.css">
 </head>
 <body>
 <div id="app">
@@ -24,38 +25,20 @@
             </div>
         </el-header>
         <el-container>
-            <!--<el-aside width="200px">-->
-                <!--<el-menu-->
-                        <!--default-active="2"-->
-                        <!--class="el-menu-vertical-demo"-->
-                        <!--@open="handleOpen"-->
-                        <!--@close="handleClose"-->
-                        <!--:default-openeds="openeds">-->
-                    <!--<el-submenu index="1">-->
-                        <!--<template slot="title">-->
-                            <!--<i class="el-icon-location"></i>-->
-                            <!--<span>基础</span>-->
-                        <!--</template>-->
-                        <!--<el-menu-item  v-for="(item,index) of menuList"-->
-                                       <!--:key="item.id"-->
-                                       <!--:index="getIndex(index)">{{item}}-->
-                        <!--</el-menu-item>-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-2"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-3"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-4"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-5"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-6"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-7"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-8"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-9"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-10"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-11"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-12"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-13"></el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="1-14"></el-menu-item>&ndash;&gt;-->
-                    <!--</el-submenu>-->
-                <!--</el-menu>-->
-            <!--</el-aside>-->
+            <el-aside>
+                <div class="centerBox">
+                    <el-card  id="time">
+                        <p>{{date}}</p>
+                        <p>{{time}}</p>
+                        <p>{{week}}</p>
+                    </el-card>
+                    <el-card class="projectMsg" :body-style="{ padding: '0px' }">
+                        <p>项目名称：</p>
+                        <p>项目负责人：{{user.userName}}</p>
+                        <p></p>
+                    </el-card>
+                </div>
+            </el-aside>
             <el-main>
 
             </el-main>
@@ -69,50 +52,40 @@
 
     let vm= new Vue({
         el: '#app',
-        data: function() {
-            return {
-                visible: false ,
-                openeds: ['1'],
-                uniqueOpened: false,
-                user:[
-                    {
-                        userName:'陈大大',
-                        tel:'13418422559',
-                        company:'世纪达集团',
-                    }
-                ],
-                menuList:[
-                    '班组评价',
-                    '项目基础信息',
-                    '进退场记录表',
-                    '刷卡数据',
-                    '工资单',
-                    '企业信息',
-                    '工资明细',
-                    '项目培训记录',
-                    '项目工人信息',
-                    '班组成员',
-                    '项目参建单位信息',
-                    '工人实名基础信息',
-                    '工人不良行为',
-                    '班组基础信息'
-                ],
-                banners:['image/banner 3.jpeg','image/banner 1.jpeg','image/banner 2.jpeg'],
+        data: {
+            user: {
+                userName: '陈大大',
+                tel: '13418422559',
+                company: '世纪达集团',
+                },
+            time: '',
+            date: '',
+            week:'',
+            proMsg:{
+                projectName:'深茂铁路深圳至茂名段装饰工程一期',
+                projectManager:'陈大大',
 
             }
-        },
-        methods: {
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            getIndex:function (index) {
-                return "1-"+index;
-            }
+
         }
+    });
 
-    })
+    const week = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+    let timerID = setInterval(updateTime, 1000);
+    updateTime();
+    function updateTime() {
+        let cd = new Date();
+        vm.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
+        vm.date = zeroPadding(cd.getFullYear(), 4) + '年' + zeroPadding(cd.getMonth()+1, 2) + '月' + zeroPadding(cd.getDate(), 2)+ '日';
+        vm.week = week[cd.getDay()]
+    }
+
+    function zeroPadding(num, digit) {
+        let zero = '';
+        for(let i = 0; i < digit; i++) {
+            zero += '0';
+        }
+        return (zero + num).slice(-digit);
+    }
 </script>
 </html>

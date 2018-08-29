@@ -1,0 +1,32 @@
+.el-aside{
+    background: rgb(48, 65, 86);
+    padding: 20px;
+}
+.el-main{
+    background: rgb(48, 65, 86);
+    width: 100%;
+    padding: 20px;
+}
+#time{
+    width: 200px;
+    font-size: 20px;
+    line-height: 35px;
+    padding:0 20px;
+    /*text-align: right;*/
+    background: #eee;
+    color: #555;
+    border:#eee;
+    margin-bottom: 20px;
+}
+.projectMsg{
+    width: 200px;
+    font-size: 14px;
+    padding:20px;
+    text-align: left;
+    background: #eee;
+    color: #555;
+    border:#eee;
+}
+.projectMsg p{
+    margin-bottom: 5px;
+}
