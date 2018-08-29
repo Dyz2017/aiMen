@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧工地管理平台</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header id="pubHead">
+            <a href="#">智慧工地管理平台</a>
+            <!--<i class="el-icon-ali-quit"></i>-->
+            <div class="block-right">
+                <el-button  plain>您好，邓先生！</el-button>
+                <el-button type="primary" icon="el-icon-ali-user" circle></el-button>
+                <el-button type="danger" icon="el-icon-ali-quit" circle></el-button>
+            </div>
+        </el-header>
+        <el-container>
+            <!--<el-aside width="200px">-->
+                <!--<el-menu-->
+                        <!--default-active="2"-->
+                        <!--class="el-menu-vertical-demo"-->
+                        <!--@open="handleOpen"-->
+                        <!--@close="handleClose"-->
+                        <!--:default-openeds="openeds">-->
+                    <!--<el-submenu index="1">-->
+                        <!--<template slot="title">-->
+                            <!--<i class="el-icon-location"></i>-->
+                            <!--<span>基础</span>-->
+                        <!--</template>-->
+                        <!--<el-menu-item  v-for="(item,index) of menuList"-->
+                                       <!--:key="item.id"-->
+                                       <!--:index="getIndex(index)">{{item}}-->
+                        <!--</el-menu-item>-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-2"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-3"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-4"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-5"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-6"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-7"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-8"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-9"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-10"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-11"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-12"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-13"></el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="1-14"></el-menu-item>&ndash;&gt;-->
+                    <!--</el-submenu>-->
+                <!--</el-menu>-->
+            <!--</el-aside>-->
+            <el-main>
+
+            </el-main>
+        </el-container>
+        <el-footer>Copyright © 2017 广东世纪同达物联服务平台有限公司 备案号：粤ICP备17155062号</el-footer>
+    </el-container>
+</div>
+</body>
+
+<script>
+
+    let vm= new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false ,
+                openeds: ['1'],
+                uniqueOpened: false,
+                user:[
+                    {
+                        userName:'陈大大',
+                        tel:'13418422559',
+                        company:'世纪达集团',
+                    }
+                ],
+                menuList:[
+                    '班组评价',
+                    '项目基础信息',
+                    '进退场记录表',
+                    '刷卡数据',
+                    '工资单',
+                    '企业信息',
+                    '工资明细',
+                    '项目培训记录',
+                    '项目工人信息',
+                    '班组成员',
+                    '项目参建单位信息',
+                    '工人实名基础信息',
+                    '工人不良行为',
+                    '班组基础信息'
+                ],
+                banners:['image/banner 3.jpeg','image/banner 1.jpeg','image/banner 2.jpeg'],
+
+            }
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            getIndex:function (index) {
+                return "1-"+index;
+            }
+        }
+
+    })
+</script>
+</html>

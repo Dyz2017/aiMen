@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目基础信息</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
+    <link rel="stylesheet" href="css/projectInfo.css">
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header id="pubHead">
+            <a href="#">智慧工地管理平台</a>
+            <!--<i class="el-icon-ali-quit"></i>-->
+            <div class="block-right">
+                <el-button  plain>您好，{{user.userName}}！</el-button>
+                <el-button type="primary" icon="el-icon-ali-user" circle></el-button>
+                <el-button type="danger" icon="el-icon-ali-quit" circle></el-button>
+            </div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <el-menu
+                        default-active="1-1"
+                        class="el-menu-vertical-demo"
+                        @open="handleOpen"
+                        @close="handleClose"
+                        :default-openeds="opened">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-location"></i>
+                            <span>基础</span>
+                        </template>
+                        <el-menu-item  v-for="(item,index) of menuList"
+                                       :key="item.id"
+                                       :index="getIndex(index)"
+
+                        >{{item}}
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                <h3>项目基础信息</h3>
+                <el-col>
+                    <el-card class="box-card">
+                        <span class="title">项目总数</span>
+                        <span class="num">5</span>
+
+                    </el-card>
+                    <el-card class="box-card">
+                        <span class="title">考勤项目</span>
+                        <span class="num">5</span>
+
+                    </el-card>
+                    <el-card class="box-card">
+                        <span class="title">待考勤项目</span>
+                        <span class="num">5</span>
+
+                    </el-card>
+                </el-col>
+                <!--搜索框-->
+                <el-card class="searchBox">
+                    <el-button type="primary" icon="el-icon-plus"  @click="dialogFormVisible = true">新增项目</el-button>
+                    <el-input
+                            placeholder="请输入搜索关键字"
+                            prefix-icon="el-icon-search"
+                            :before-close="handleClose"
+                            v-model="search">
+                    </el-input>
+                </el-card>
+                <!--项目列表-->
+                <el-card>
+                    <el-table
+                            :data="tableData"
+                            stripe
+                            style="width: 100%">
+                        <el-table-column
+                                prop="strprojectname"
+                                label="项目名称"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                prop="strareaname"
+                                label="项目所在地"
+                                width="300"
+                               >
+                        </el-table-column>
+                        <el-table-column
+                                prop="strprojectcode"
+                                label="项目编号">
+                        </el-table-column>
+                        <el-table-column
+                                prop="fbuildingarea"
+                                label="建筑面积(平方米)">
+                        </el-table-column>
+                        <el-table-column
+                                prop="strbuildprojectcode"
+                                label="建设项目编码">
+                        </el-table-column>
+                        <el-table-column
+                                prop="strgeneralcontractorname"
+                                label="承包单位">
+                        </el-table-column>
+                        <el-table-column
+                                prop="action"
+                                label="操作">
+                            <template slot-scope="scope">
+                                <el-button
+                                        size="mini"
+                                        @click="handleEdit(scope.$index, scope.row)">编辑 | 详情</el-button>
+                                <el-button
+                                        size="mini"
+                                        type="danger"
+                                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <!--<el-pagination-->
+                            <!--layout="prev, pager, next"-->
+                            <!--:total="50">-->
+                    <!--</el-pagination>-->
+
+                </el-card>
+                <!--新增弹框-->
+                <el-dialog title="新增项目" :visible.sync="dialogFormVisible" width="70%">
+                    <el-form :model="form"  :label-position="labelPosition" label-width="150px" id="newPro"  ref="addForm">
+                        <!--<el-form-item label="活动名称" :label-width="formLabelWidth">-->
+                            <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
+                        <!--</el-form-item>-->
+                        <!--<el-form-item label="活动区域" :label-width="formLabelWidth">-->
+                            <!--<el-select v-model="form.region" placeholder="请选择活动区域">-->
+                                <!--<el-option label="区域一" value="shanghai"></el-option>-->
+                                <!--<el-option label="区域二" value="beijing"></el-option>-->
+                            <!--</el-select>-->
+                        <!--</el-form-item>-->
+                        <el-row>
+                            <el-col :span="12">
+                                    <el-form-item label="项目编号" prop>
+                                        <el-input v-model="form.strprojectcode"></el-input>
+                                    </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                    <el-form-item label="项目名称">
+                                        <el-input v-model="form.strprojectname"></el-input>
+                                    </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="建设项目编码">
+                                    <el-input v-model="form.strbuildprojectcode"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="承包单位组织代码">
+                                    <el-input v-model="form.strcontractororgcode"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="承包单位编号">
+                                    <el-input v-model="form.strgeneralcontractorcode"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="承包单位">
+                                    <el-input v-model="form.strgeneralcontractorname"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="项目活动类型">
+                                    <el-input v-model="form.strprojectactivitytype"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="建筑单位名称">
+                                    <el-input v-model="form.strownername"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="建设单位机构代码">
+                                    <el-input v-model="form.srbuildcorporationcode"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="施工单位许可证编号">
+                                    <el-input v-model="form.strbuildlicenecnum"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>  <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="项目所在地">
+                                <el-input v-model="form.strareaname"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="项目分类">
+                                <!--<el-input v-model="form.strprojectcategory"></el-input>-->
+                                <el-select v-model="form.strprojectcategory" placeholder="项目分类" style="width: 100%;">
+                                    <el-option label="市政工程" value="市政工程"></el-option>
+                                    <el-option label="房屋建筑工程" value="房屋建筑工程"></el-option>
+                                    <el-option label="其他" value="其他"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="项目状态">
+                                    <!--<el-input v-model="form.strprojectstatus"></el-input>-->
+                                    <el-select v-model="form.strprojectstatus" placeholder="项目状态" style="width: 100%;">
+                                        <el-option label="筹备" value="筹备"></el-option>
+                                        <el-option label="立项" value="立项"></el-option>
+                                        <el-option label="在建" value="在建"></el-option>
+                                        <el-option label="完工" value="完工"></el-option>
+                                        <el-option label="停工" value="停工"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="承包合同额">
+                                    <el-input v-model="form.mtotalcontractamt"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="建筑面积(平方米)">
+                                    <el-input v-model="form.fbuildingarea"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="开工日期">
+                                    <!--<el-input v-model="form.dstartdate"></el-input>-->
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="form.dstartdate" style="width: 100%;"></el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="竣工日期">
+                                    <!--<el-input v-model="form.dcompletedate"></el-input>-->
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="form.dcompletedate" style="width: 100%;"></el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="是否重点项目">
+                                    <!--<el-input v-model="form.bmajorproject"></el-input>-->
+                                    <el-radio-group v-model="form.bmajorproject">
+                                        <el-radio label="true">是</el-radio>
+                                        <el-radio label="false">否</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+
+                        <!--<el-form-item label="项目编号">-->
+                            <!--<el-input v-model="form.name"></el-input>-->
+                        <!--</el-form-item>-->
+                    </el-form>
+
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="dialogFormVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="addProject('addForm')">确 定</el-button>
+                    </div>
+                </el-dialog>
+            </el-main>
+        </el-container>
+        <el-footer>Copyright © 2017 广东世纪同达物联服务平台有限公司 备案号：粤ICP备17155062号</el-footer>
+    </el-container>
+</div>
+</body>
+<script>
+
+    let vm= new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false ,
+                opened: ['1'],
+                search:'',
+                uniqueOpened: false,
+                dialogFormVisible: false,//弹框默认关闭
+                labelPosition: 'right',
+                user:
+                    {
+                        userName:'陈大大',
+                        tel:'13418422559',
+                        company:'世纪达集团',
+                    }
+                ,
+                menuList:[
+                    '班组评价',
+                    '项目基础信息',
+                    '进退场记录表',
+                    '刷卡数据',
+                    '工资单',
+                    '企业信息',
+                    '工资明细',
+                    '项目培训记录',
+                    '项目工人信息',
+                    '班组成员',
+                    '项目参建单位信息',
+                    '工人实名基础信息',
+                    '工人不良行为',
+                    '班组基础信息'
+                ],
+                banners:['image/banner 3.jpeg','image/banner 1.jpeg','image/banner 2.jpeg'],
+                tableData: [],
+                form: {
+                    strprojectcode: '',
+                    strprojectname:'',
+                    strbuildprojectcode:'',
+                    strcontractororgcode:'',
+                    strgeneralcontractorcode:'',
+                    strgeneralcontractorname:'',
+                    strprojectactivitytype:'',
+                    strownername:'',
+                    srbuildcorporationcode: '',
+                    strbuildlicenecnum: '',
+                    strareaname: '',
+                    strprojectcategory: '',
+                    strprojectstatus: '',
+                    mtotalcontractamt: '',
+                    fbuildingarea: '',
+                    dstartdate: '',
+                    dcompletedate: '',
+                    strprojectdescription: '',
+                    bmajorproject:''
+                },
+                detailTable:[]
+            }
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            getIndex:function (index) {
+                return "1-"+index;
+            },
+            handleDelete:function (index, row) {
+                this.tableData.splice(index, 1);
+            },
+            handleClose:function () {
+
+            },
+            handleEdit:function(index,row){
+                console.log(index)
+                console.log(row)
+            },
+            addProject:function (formName) {
+                let addList={
+                    strprojectname: this.form.strprojectname,
+                    strareaname:this.form.strareaname,
+                    strprojectcode: this.form.strprojectcode,
+                    fbuildingarea:this.form.fbuildingarea,
+                    strbuildprojectcode:this.form.strbuildprojectcode,
+                    strgeneralcontractorname:this.form.strgeneralcontractorname
+                };
+                this.detailTable.push(this.form)
+                console.log(this.detailTable)
+                this.tableData.push(addList)
+                console.log(this.$refs[formName])
+                this.$refs[formName].resetFields();
+                this.dialogFormVisible = false
+
+            }
+            // dialogFormVisible:function () {
+            //
+            // }
+        }
+
+    })
+</script>
+</html>

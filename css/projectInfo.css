@@ -1,0 +1,51 @@
+.el-col{
+    display: flex;
+    justify-content: left;
+
+}
+.box-card{
+    width: 20%;
+    height: 150px;
+    margin:10px 30px 10px 0;
+    color: #fff;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    cursor: pointer;
+    text-align: center;
+    /*background: #409EFF;*/
+}
+.box-card:first-child{
+    background: #409EFF;
+}
+.box-card:nth-child(2){
+    background: #E6A23C;
+}
+.box-card:nth-child(3){
+    background: #F56C6C;
+}
+
+.box-card .title{
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    height: 40%;
+    line-height: 50px;
+}
+.box-card .num{
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    height: 40%;
+    line-height: 50px;
+}
+.searchBox{
+    display: flex;
+
+}
+.searchBox .el-input{
+    width: 300px;
+}
+#newPro .el-form-item{
+    width: 80%;
+}
