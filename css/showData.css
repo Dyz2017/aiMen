@@ -1,11 +1,13 @@
 .el-aside{
-    background: rgb(48, 65, 86);
+    background: #eee;
     padding: 20px;
 }
 .el-main{
-    background: rgb(48, 65, 86);
+    /*background: rgb(48, 65, 86);*/
+    background: #eeeeee;
     width: 100%;
     padding: 20px;
+    overflow: hidden;
 }
 #time{
     width: 200px;
@@ -13,20 +15,30 @@
     line-height: 35px;
     padding:0 20px;
     /*text-align: right;*/
-    background: #eee;
-    color: #555;
-    border:#eee;
+    background: #409EFF;
+    color: #fff;
+    border:#409EFF;
     margin-bottom: 20px;
 }
 .projectMsg{
     width: 200px;
     font-size: 14px;
-    padding:20px;
+    padding:40px 20px;
     text-align: left;
-    background: #eee;
+    /*background: #;*/
     color: #555;
-    border:#eee;
+    /*border:#eee;*/
 }
 .projectMsg p{
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
+.flexBox{
+    display: flex;
+}
+.flexBox .el-card{
+    flex-grow: 1;
+    height: 430px;
+    margin:0 10px;
+    flex-shrink:0;
+
 }

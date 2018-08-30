@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
     <link rel="stylesheet" href="css/showData.css">
+    <script src="js/echarts.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -19,7 +20,7 @@
             <a href="#">智慧工地管理平台</a>
             <!--<i class="el-icon-ali-quit"></i>-->
             <div class="block-right">
-                <el-button  plain>您好，邓先生！</el-button>
+                <el-button  plain>您好，{{user.userName}}！</el-button>
                 <el-button type="primary" icon="el-icon-ali-user" circle></el-button>
                 <el-button type="danger" icon="el-icon-ali-quit" circle></el-button>
             </div>
@@ -33,14 +34,31 @@
                         <p>{{week}}</p>
                     </el-card>
                     <el-card class="projectMsg" :body-style="{ padding: '0px' }">
-                        <p>项目名称：</p>
-                        <p>项目负责人：{{user.userName}}</p>
-                        <p></p>
+                        <p><strong>项目名称：</strong>{{proMsg.projectName}}</p>
+                        <p><strong>项目负责人：</strong>{{proMsg.projectManager}}</p>
+                        <p><strong>项目地址：</strong>{{proMsg.projectAddress}}</p>
+                        <p><strong>开工时间：</strong>{{proMsg.startTime}}</p>
+                        <p><strong>竣工时间：</strong>{{proMsg.endTime}}</p>
                     </el-card>
                 </div>
             </el-aside>
             <el-main>
+                <div class="flexBox">
+                    <el-card :body-style="{ padding: '10px', width:'100%',height:'100%' }">
+                        <div slot="header" class="clearfix">
+                            <span>应到实到统计</span>
+                        </div>
+                        <div id="main" style="width: 600px;height:350px;"></div>
+                    </el-card>
+                    <el-card>
+                        <div slot="header" class="clearfix">
+                            <span>工种人数统计</span>
+                        </div>
+                        <div id="main2" style="width: 600px;height:350px;"></div>
+                    </el-card>
 
+                </div>
+                <div class=""></div>
             </el-main>
         </el-container>
         <el-footer>Copyright © 2017 广东世纪同达物联服务平台有限公司 备案号：粤ICP备17155062号</el-footer>
@@ -64,7 +82,9 @@
             proMsg:{
                 projectName:'深茂铁路深圳至茂名段装饰工程一期',
                 projectManager:'陈大大',
-
+                projectAddress:'深圳市高新园区一段二号',
+                startTime:'2018-6-25',
+                endTime:'2019-10-5'
             }
 
         }
@@ -87,5 +107,42 @@
         }
         return (zero + num).slice(-digit);
     }
+    var myChart = echarts.init(document.getElementById('main'));
+    var myChart2 = echarts.init(document.getElementById('main2'));
+    // 指定图表的配置项和数据
+    var option1 = {
+        color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
+        tooltip: {},
+        grid:{
+            left:'8%',
+            right:'0',
+            bottom:'10%',
+            containLabel:true
+        },
+        xAxis: {
+            data: ["木工","水泥工","电工","钢筋工","监管","质检","水管工","安全员"]
+        },
+        yAxis: {},
+        series: [{
+            name: '人数',
+            type: 'bar',
+            data: [5, 20, 69, 10, 10, 20,6,25]
+        }]
+    };
+    var option2 = {
+        series: {
+            type: 'pie',
+            label:{
+
+            },
+            data: [
+                {name: '未到', value: 1},
+                {name: '实到', value: 100},
+            ]
+        }
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option2);
+    myChart2.setOption(option1);
 </script>
 </html>
