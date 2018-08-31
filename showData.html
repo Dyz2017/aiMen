@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
     <link rel="stylesheet" href="css/showData.css">
     <script src="js/echarts.min.js"></script>
+    <script src="js/vintage.js"></script>
 </head>
 <body>
 <div id="app">
@@ -44,17 +45,28 @@
             </el-aside>
             <el-main>
                 <div class="flexBox">
-                    <el-card :body-style="{ padding: '10px', width:'100%',height:'100%' }">
-                        <div slot="header" class="clearfix">
-                            <span>应到实到统计</span>
-                        </div>
-                        <div id="main" style="width: 600px;height:350px;"></div>
+                        <!--<div slot="header" class="clearfix">-->
+                    <el-card :body-style="{ padding: '10px', width:'auto',height:'auto' }">
+                    <!--<span>应到实到统计</span>-->
+                        <!--</div>-->
+                        <div id="main" style="width:700px;height:400px;"></div>
                     </el-card>
                     <el-card>
-                        <div slot="header" class="clearfix">
-                            <span>工种人数统计</span>
-                        </div>
-                        <div id="main2" style="width: 600px;height:350px;"></div>
+                        <!--<div slot="header" class="clearfix">-->
+                            <!--<span>工种人数统计</span>-->
+                        <!--</div>-->
+                        <div id="main2" style="width:650px;height:400px;"></div>
+                    </el-card>
+
+                </div>
+                <div class="flexBox">
+                    <!--<div slot="header" class="clearfix">-->
+                    <el-card :body-style="{ padding: '10px', width:'auto',height:'auto' }">
+                        <div id="main3" style="width:700px;height:400px;"></div>
+                    </el-card>
+                    <el-card>
+
+                        <div id="main4" style="width:650px;height:400px;"></div>
                     </el-card>
 
                 </div>
@@ -109,40 +121,417 @@
     }
     var myChart = echarts.init(document.getElementById('main'));
     var myChart2 = echarts.init(document.getElementById('main2'));
+    var myChart3 = echarts.init(document.getElementById('main3'));
+    var myChart4 = echarts.init(document.getElementById('main4'));
     // 指定图表的配置项和数据
     var option1 = {
-        color: ['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3'],
-        tooltip: {},
-        grid:{
-            left:'8%',
-            right:'0',
-            bottom:'10%',
-            containLabel:true
+        title : {
+            text: '工种统计',
+            subtext: '纯属虚构',
+            x:'left'
         },
-        xAxis: {
-            data: ["木工","水泥工","电工","钢筋工","监管","质检","水管工","安全员"]
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        yAxis: {},
-        series: [{
-            name: '人数',
-            type: 'bar',
-            data: [5, 20, 69, 10, 10, 20,6,25]
-        }]
+        legend: {
+            x : 'center',
+            y : 'bottom',
+            data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'工种',
+                type:'pie',
+                radius : [30, 130],
+                center : ['50%', 200],
+                roseType : 'area',
+                // x: '50%',               // for funnel
+                // max: 40,                // for funnel
+                // sort : 'ascending',     // for funnel
+                data:[
+                    {value:10, name:'木工'},
+                    {value:5, name:'电工'},
+                    {value:15, name:'水泥工'},
+                    {value:25, name:'钢筋工'},
+                    {value:20, name:'水管工'},
+                    {value:35, name:'地板工'},
+                    {value:30, name:'墙面工'},
+                ]
+            }
+        ]
     };
     var option2 = {
-        series: {
-            type: 'pie',
-            label:{
-
+       title : {
+           text: '人数统计',
+           subtext: '纯属虚构',
+           x:'left'
+       },
+       grid: {
+           left: "50",
+           top: "100",
+           bottom: "20",
+           right: "0",
+           containLabel: true
+       },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['应到人数','实到人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['周一','周二','周三','周四','周五','周六','周日'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                min: 0,
+                // max: 250,
+                // interval: 50,
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
             },
-            data: [
-                {name: '未到', value: 1},
-                {name: '实到', value: 100},
-            ]
-        }
+            // {
+            //     type: 'value',
+            //     name: '温度',
+            //     min: 0,
+            //     max: 25,
+            //     interval: 5,
+            //     axisLabel: {
+            //         formatter: '{value} °C'
+            //     }
+            // }
+        ],
+        series: [
+            {
+                name:'应到人数',
+                type:'bar',
+                data:[550,580,400,600,600,500,480]
+            },
+            {
+                name:'实到人数',
+                type:'bar',
+                data:[476,560,389,568,590,488,464]
+            },
+            // {
+            //     name:'平均温度',
+            //     type:'line',
+            //     yAxisIndex: 1,
+            //     data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            // }
+        ]
     };
+    var colors = ['#5793f3', '#d14a61', '#675bba'];
+    var option3 = {
+        title : {
+            text: '打卡时间统计',
+            subtext: '纯属虚构',
+            x:'left'
+        },
+        color:colors,
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        grid: {
+            left: "50",
+            top: "100",
+            bottom: "20",
+            right: "0",
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['蒸发量','降水量','平均温度']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {
+                    alignWithLabel: true
+                },
+                data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '蒸发量',
+                min: 0,
+                max: 250,
+                position: 'right',
+                axisLine: {
+                    lineStyle: {
+                        color: colors[0]
+                    }
+                },
+                axisLabel: {
+                    formatter: '{value} ml'
+                }
+            },
+            {
+                type: 'value',
+                name: '降水量',
+                min: 0,
+                max: 250,
+                position: 'right',
+                offset: 80,
+                axisLine: {
+                    lineStyle: {
+                        color: colors[1]
+                    }
+                },
+                axisLabel: {
+                    formatter: '{value} ml'
+                }
+            },
+            {
+                type: 'value',
+                name: '温度',
+                min: 0,
+                max: 25,
+                position: 'left',
+                axisLine: {
+                    lineStyle: {
+                        color: colors[2]
+                    }
+                },
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            }
+        ],
+        series: [
+            {
+                name:'蒸发量',
+                type:'bar',
+                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            },
+            {
+                name:'降水量',
+                type:'bar',
+                yAxisIndex: 1,
+                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            },
+            {
+                name:'平均温度',
+                type:'line',
+                yAxisIndex: 2,
+                data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }
+        ]
+    };
+    // var option3 = {
+    //     title : {
+    //         text: '打卡统计',
+    //         subtext: '纯属虚构',
+    //         x:'left'
+    //     },
+    //     grid: {
+    //         left: "50",
+    //         top: "100",
+    //         bottom: "20",
+    //         right: "0",
+    //         containLabel: true
+    //     },
+    //     tooltip: {
+    //         trigger: 'axis',
+    //         axisPointer: {
+    //             type: 'cross',
+    //             crossStyle: {
+    //                 color: '#999'
+    //             }
+    //         }
+    //     },
+    //     toolbox: {
+    //         feature: {
+    //             dataView: {show: true, readOnly: false},
+    //             magicType: {show: true, type: ['line', 'bar']},
+    //             restore: {show: true},
+    //             saveAsImage: {show: true}
+    //         }
+    //     },
+    //     legend: {
+    //         data:['应到人数','实到人数']
+    //     },
+    //     xAxis: [
+    //         {
+    //             type: 'category',
+    //             data: ['0点','1点','2点','3点','4点','5点','6点','7点','8点','9点','10点','11点','12点','13点','14点','15点','16点','17点','18点','19点','20点','21点','22点','23点','24点'],
+    //             axisPointer: {
+    //                 type: 'shadow'
+    //             }
+    //         }
+    //     ],
+    //     yAxis: [
+    //         {
+    //             type: 'value',
+    //             name: '人数',
+    //             min: 0,
+    //             // max: 250,
+    //             // interval: 50,
+    //             axisLabel: {
+    //                 formatter: '{value} 人'
+    //             }
+    //         },
+    //         // {
+    //         //     type: 'value',
+    //         //     name: '温度',
+    //         //     min: 0,
+    //         //     max: 25,
+    //         //     interval: 5,
+    //         //     axisLabel: {
+    //         //         formatter: '{value} °C'
+    //         //     }
+    //         // }
+    //     ],
+    //     series: [
+    //         {
+    //             name:'打卡时间',
+    //             type:'bar',
+    //             data:[12,12,48,78,78,78,78,9,8,7,89,98,89,78,45,45,56,56,56,89,89,45,12,12]
+    //         },
+    //         {
+    //             name:'打卡时间',
+    //             type:'line',
+    //             yAxisIndex: 1,
+    //             data:[12,12,48,78,78,78,78,9,8,7,89,98,89,78,45,45,56,56,56,89,89,45,12,12]
+    //         }
+    //     ]
+    // };
+    var option4 = {
+        title : {
+            text: '人数统计',
+            subtext: '纯属虚构',
+            x:'left'
+        },
+        grid: {
+            left: "50",
+            top: "100",
+            bottom: "20",
+            right: "0",
+            containLabel: true
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data:['应到人数','实到人数']
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['周一','周二','周三','周四','周五','周六','周日'],
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                min: 0,
+                // max: 250,
+                // interval: 50,
+                axisLabel: {
+                    formatter: '{value} 人'
+                }
+            },
+            // {
+            //     type: 'value',
+            //     name: '温度',
+            //     min: 0,
+            //     max: 25,
+            //     interval: 5,
+            //     axisLabel: {
+            //         formatter: '{value} °C'
+            //     }
+            // }
+        ],
+        series: [
+            {
+                name:'应到人数',
+                type:'bar',
+                data:[550,580,400,600,600,500,480]
+            },
+            {
+                name:'实到人数',
+                type:'bar',
+                data:[476,560,389,568,590,488,464]
+            },
+            // {
+            //     name:'平均温度',
+            //     type:'line',
+            //     yAxisIndex: 1,
+            //     data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            // }
+        ]
+    };
+
     // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option2);
-    myChart2.setOption(option1);
+    myChart.setOption(option1);
+    myChart2.setOption(option2);
+    myChart3.setOption(option3);
+    myChart4.setOption(option4);
 </script>
 </html>

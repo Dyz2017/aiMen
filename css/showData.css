@@ -6,11 +6,11 @@
     /*background: rgb(48, 65, 86);*/
     background: #eeeeee;
     width: 100%;
-    padding: 20px;
-    overflow: hidden;
+    padding: 20px 0;
+    overflow: auto;
 }
 #time{
-    width: 200px;
+    /*width: 250px;*/
     font-size: 20px;
     line-height: 35px;
     padding:0 20px;
@@ -21,7 +21,7 @@
     margin-bottom: 20px;
 }
 .projectMsg{
-    width: 200px;
+    /*width: 250px;*/
     font-size: 14px;
     padding:40px 20px;
     text-align: left;
@@ -37,8 +37,8 @@
 }
 .flexBox .el-card{
     flex-grow: 1;
+    /*width: 650px;*/
     height: 430px;
-    margin:0 10px;
+    margin:0 10px 10px;
     flex-shrink:0;
-
 }
