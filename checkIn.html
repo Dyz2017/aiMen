@@ -5,13 +5,102 @@
     <title>考勤统计</title>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+
     <!-- import JavaScript -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_ie4tzxpngdb.css">
+    <style>
+        .msgFont{
+            margin: 0 10px;
+        }
+        .myTable{
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-
+        <el-container>
+            <el-header id="pubHead">
+                <a href="#">智慧工地管理平台</a>
+                <!--<i class="el-icon-ali-quit"></i>-->
+                <div class="block-right">
+                    <!--<el-button  plain>您好，邓先生！</el-button>-->
+                    <el-button type="primary" icon="el-icon-ali-user" circle></el-button>
+                    <el-button type="danger" icon="el-icon-ali-quit" circle></el-button>
+                </div>
+            </el-header>
+            <el-card>
+                <span class="msgFont">班组：{{teamName}}</span>
+                <!--<span class="msgFont">本月打卡天数：{{workDays}}</span>-->
+                <!--<span class="msgFont">打卡异常天数：{{abnormal }}</span>-->
+                <el-date-picker
+                        v-model="checkMonth"
+                        type="month"
+                        @change="getMonth"
+                        placeholder="选择月">
+                </el-date-picker>
+            </el-card>
+            <el-table
+                    width="100%"
+                    :data="tableData"
+                    class="myTable"
+                    header-align="center"
+            >
+                <el-table-column
+                        type="index"
+                        fixed
+                        label="序号">
+                </el-table-column>
+                <el-table-column prop="workerName"
+                                 label="姓名"
+                                 fixed>
+                </el-table-column>
+                <!--<el-table-column prop="workDay1" label="1"></el-table-column>-->
+                <el-table-column
+                        v-for="(day,index) in 31"
+                        :label='day.toString()'
+                        :key="index"
+                        min-width="55"
+                        align="center"
+                        >
+                    <template  scope="scope">
+                        <!--{{scope.row.workday[index]}}-->
+                        <el-button type="success" icon="el-icon-check" circle v-if="scope.row.workday[index]==1" size="mini"></el-button>
+                        <el-button type="warning" icon="el-icon-warning" circle v-if="scope.row.workday[index]==0" size="mini"></el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-container>
     </div>
 </body>
+<script>
+    let vm= new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                checkMonth:'1517414400000',
+                teamName:'班组1',
+                // workDays:'25',
+                // abnormal:'0',
+                tableData:[{
+                    workerName:"黄飞鸿",
+                    workday:{0:1, 1: 1 ,2:0, 3: 1 , 6:1 ,15:1}
+                },{
+                    workerName:"黄飞鸿",
+                    workday:{0:2, 1: 0 ,2:0, 3: 1 , 6:1 ,15:1}
+                },{
+                    workerName:"黄飞鸿",
+                    workday:{0:1, 1: 1 ,2:0, 3: 1 , 6:1 ,15:1}
+                }]
+            }
+        },
+        methods:{
+            getMonth:function () {
+                console.log(this.checkMonth.getTime())
+            }
+        }
+    })
+</script>
 </html>
