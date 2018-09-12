@@ -102,10 +102,14 @@
         },
         methods:{
             getMonth:function () {
-                console.log(this.chooseMonth.getTime());
+                //console.log(this.chooseMonth.getTime())
+                if(this.chooseMonth==null){
+                    this.chooseMonth=new Date()
+                }
 
             },
             getDays:function(){  //获取某月天数
+                    console.log(this.chooseMonth);
                     let year= this.chooseMonth.getFullYear();
                     let month= this.chooseMonth.getMonth()+1;
                     let d = new Date(year, month, 0);
