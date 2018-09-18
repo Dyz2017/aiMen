@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考勤补打卡</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_795001_3zf3dekx0dj.css">
+    <style>
+        .msgFont{
+            margin: 0 10px 0 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header id="pubHead">
+            <a href="#">智慧工地管理平台</a>
+            <!--<i class="el-icon-ali-quit"></i>-->
+            <div class="block-right">
+                <!--<el-button  plain>您好，邓先生！</el-button>-->
+                <el-button type="primary" icon="el-icon-ali-user" circle></el-button>
+                <el-button type="danger" icon="el-icon-ali-quit" circle></el-button>
+            </div>
+        </el-header>
+        <!--<el-card>-->
+            <!--<span class="msgFont">姓名：{{workerName}}</span>-->
+            <!--<span class="msgFont">所在项目：{{projectName}}</span>-->
+
+        <!--</el-card>-->
+        <el-card>
+            <h3 style="color: #555;margin-bottom: 20px">过滤查询</h3>
+            <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                <el-form-item label="姓名">
+                    <el-input v-model="formInline.user" placeholder="姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="时间">
+                    <el-date-picker
+                            v-model="chooseDate"
+                            type="date"
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" >查询</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
+        <el-card>
+            <el-button
+                    icon="el-icon-plus"
+                    plain
+                    style="margin-bottom: 20px;"
+                    @click="dialogTableVisible = true">新增打卡记录</el-button>
+            <el-table
+                    :data="tableData"
+                    border
+                    style="width: 100%">
+                <el-table-column
+                        type="index"
+                        label="序号"
+                        width="50">
+                </el-table-column>
+                <el-table-column
+                        prop="workerName"
+                        label="姓名"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="teamName"
+                        label="班组名称">
+                </el-table-column>
+                <el-table-column
+                        prop="projectName"
+                        label="项目类型"
+                        width="400">
+                </el-table-column>
+                <el-table-column
+                        prop="cardType"
+                        label="打卡类型"
+                        >
+                </el-table-column>
+                <el-table-column
+                        prop="cardTime"
+                        label="打卡时间"
+                        >
+                </el-table-column>
+                <el-table-column
+
+                        label="详情"
+                        width="100">
+                    <template slot-scope="scope">
+                        <el-button  type="text" size="small">查看</el-button>
+
+                    </template>
+                </el-table-column>
+
+            </el-table>
+        </el-card>
+        <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+            <el-form :model="form">
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="姓名" :label-width="formLabelWidth">
+                            <el-select v-model="chooseOne" filterable placeholder="请选择" >
+                                <el-option
+                                        v-for="item in selectWorker"
+                                        :key="item.workerIdCard"
+                                        :label="item.workerName"
+                                        :value="item.workerIdCard">
+                                </el-option>
+                            </el-select>
+                    </el-form-item></el-col>
+                    <el-col :span="12">
+                        <el-form-item label="证件号码" :label-width="formLabelWidth">
+                            <el-input v-model="form.idCard" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogTableVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+    </el-container>
+
+</div>
+</body>
+<script>
+    let vm= new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                chooseMonth:'',
+                workerName:'黄飞鸿',
+                teamName:'班组1',
+                dialogTableVisible: false,
+                projectName:'深茂铁路项目茂名段',
+                chooseDate:'',
+                formInline: {
+                    user: '',
+                    chooseDate: ''
+                },
+                tableData: [
+                    {
+                    workerName: '王小虎',
+                    teamName:'班组1',
+                    projectName: '深茂铁路项目茂名段深茂铁路项目茂名段深茂铁路项目茂名段',
+                    cardType: '入场',
+                    cardTime:'2018-9-18 15:47:39',
+            }, {
+                    workerName: '王小虎',
+                    projectName: '深茂铁路项目茂名段',
+                    cardType: '入场',
+                    cardTime:'2018-9-18 15:47:39',
+                }],
+                form:{
+                    name: '',
+                    idCard: '',
+                    cardType: '',
+                    cardTime: '',
+                    way: 1,
+                    imgUrl: '',
+                    dataWay: '手动输入',
+                    proName: '',
+                    proCode:''
+                },
+                selectWorker:[
+                    {
+                        workerName:'黄飞鸿',
+                        workerIdCard:'440683199212082356',
+                    },
+                    {
+                        workerName:'蓝飞鸿',
+                        workerIdCard:'440683199212082358',
+                    },
+                    {
+                        workerName:'红飞鸿',
+                        workerIdCard:'440683199212082357',
+                    }
+                ],
+                formLabelWidth:'120px',
+                chooseOne:''
+            }
+        },
+        created:function(){
+            // console.log(1)
+        },
+        methods:{
+
+        }
+    })
+</script>
+</html>
